@@ -1,0 +1,36 @@
+version: '2'
+services:
+  php:
+    image: bscheshir/php:7.0.11-fpm-4yii2-xdebug
+    restart: always
+    ports:
+      - "9000:9001"
+    volumes:
+      - ./php-code:/var/www/html #php-code
+    depends_on:
+      - db
+    environment:
+      XDEBUG_CONFIG: remote_host=192.168.1.39
+  nginx:
+    image: nginx:1.11.5-alpine
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+    volumes_from:
+      - php
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d #nginx-conf
+      - ./nginx-logs:/var/log/nginx #nginx-logs
+  db:
+    image: mysql:5.7.15
+    restart: always
+    volumes:
+      - ./mysql-data/db:/var/lib/mysql #mysql-data
+    environment:
+      MYSQL_ROOT_PASSWORD: yaweather
+      MYSQL_DATABASE: yaweather
+      MYSQL_USER: yaweather
+      MYSQL_PASSWORD: yaweather
+
