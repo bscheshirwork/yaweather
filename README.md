@@ -9,11 +9,14 @@ Dockerized yandex weather parsrt
 
 Ниже приведу последовательность действий для запуска на Ubuntu
 
-1. Установить docker и docker-compose по ссылкам выше.
-2. Создать папку проекта 
+1.Установить docker и docker-compose по ссылкам выше.
+
+2.Создать папку проекта 
+
 ```
 $ git clone https://github.com/bscheshirwork/yaweather
 ```
+
 либо вручную, если отсутствует git - из [архива](https://github.com/bscheshirwork/yaweather/archive/master.zip)
 В ней `docker-compose.yml` служит для установки конфигурации Вашей будущей связки сервисов. Для дебага не забудьте изменить соответствующую переменную окружения, подставив адрес вашей машины вместо указанного для примера.
 ```
@@ -53,7 +56,9 @@ services:
       MYSQL_USER: yaweather
       MYSQL_PASSWORD: yaweather
 ```
-2. Загрузить и запустить сервис `php`
+
+3.Загрузить и запустить сервис `php`
+
 ```
 $ cd yaweather
 $ docker-compose run php /bin/bash
@@ -61,18 +66,21 @@ Creating network "yaweather_default" with the default driver
 Creating yaweather_db_1
 root@abfe3b3ca645:/var/www/html#
 ```
-3. Загрузить зависимости `composer`в контейнере. Обнление потребует github token (см. [установку yii2](https://github.com/yiisoft/yii2/blob/master/docs/guide-ru/start-installation.md) ), его вы можете найти на своей странице в разделе `https://github.com/settings/tokens`
+4.Загрузить зависимости `composer`в контейнере. Обнление потребует github token (см. [установку yii2](https://github.com/yiisoft/yii2/blob/master/docs/guide-ru/start-installation.md) ), его вы можете найти на своей странице в разделе `https://github.com/settings/tokens`
+
 ```
 root@abfe3b3ca645:/var/www/html# composer update
 ```
-4. Выполнить миграции
+5.Выполнить миграции
 ```
 root@abfe3b3ca645:/var/www/html# chmod go+rw -R web/assets/ runtime/
 root@abfe3b3ca645:/var/www/html# chmod +x yii
 root@abfe3b3ca645:/var/www/html# ./yii migrate/up
 ```
 > Если Вы хотите запустить на одной машине несколько копий такой сборки - обратите внимани на то, чтобы папки (и соответственно префикс композиции) имели разное название. Также переменные окружения для mysql необходимо дифференцировать по проектам. Несоблюдение данного правила будет приводить к ошибкам подключения к базе. 
-5. Выйти из контейнера (`exit`, ctrl+c) и запустить оркестровку
+
+
+6.Выйти из контейнера (`exit`, ctrl+c) и запустить оркестровку
 ```
 $ docker-compose up -d
 Creating network "yaweather_default" with the default driver
