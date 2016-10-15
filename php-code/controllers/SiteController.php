@@ -159,8 +159,7 @@ class SiteController extends Controller
 
 
         } catch (\Exception $e) {
-            $this->end($e->statusCode, isset($response) ? $response : null);
-            // echo $e->statusCode;
+            throw new HttpException(500, $response ?? null, $e->statusCode ?? null);
         }
 
     }
