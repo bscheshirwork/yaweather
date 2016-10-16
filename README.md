@@ -25,8 +25,6 @@ services:
   php:
     image: bscheshir/php:7.0.11-fpm-4yii2-xdebug
     restart: always
-    ports:
-      - "9000:9001"
     volumes:
       - ./php-code:/var/www/html #php-code
     depends_on:
